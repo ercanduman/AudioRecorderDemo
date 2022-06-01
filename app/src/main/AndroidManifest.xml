@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VoiceRecorder">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.VoiceRecorder.NoActionBar">
             <intent-filter>

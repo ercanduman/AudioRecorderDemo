@@ -1,4 +1,4 @@
-package ercanduman.android.audiorecorder
+package ercanduman.android.audiorecorder.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
+import ercanduman.android.audiorecorder.R
 import ercanduman.android.audiorecorder.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
