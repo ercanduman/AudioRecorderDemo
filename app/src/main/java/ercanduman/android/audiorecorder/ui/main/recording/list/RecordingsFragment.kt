@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import ercanduman.android.audiorecorder.R
 import ercanduman.android.audiorecorder.databinding.FragmentRecordingsBinding
 
 /**
@@ -33,9 +31,11 @@ class RecordingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+
     }
 
     override fun onDestroyView() {
