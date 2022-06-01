@@ -13,7 +13,8 @@
         app:layout_constraintBottom_toTopOf="@id/button_show_recordings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Record/Stop" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_show_recordings"
