@@ -1,11 +1,14 @@
 package ercanduman.android.audiorecorder.ui.main.recording.list
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.data.repository.RecordsRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class RecordsViewModel(
+@HiltViewModel
+class RecordsViewModel @Inject constructor(
     private val recordsRepository: RecordsRepository
 ) : ViewModel() {
 
