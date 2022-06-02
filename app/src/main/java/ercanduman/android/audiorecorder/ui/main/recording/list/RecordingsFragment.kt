@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.android.audiorecorder.databinding.FragmentRecordingsBinding
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
+@AndroidEntryPoint
 class RecordingsFragment : Fragment() {
 
     private var _binding: FragmentRecordingsBinding? = null
