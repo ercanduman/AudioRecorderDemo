@@ -29,14 +29,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun startRecording() {
-        // recordsRepository.startRecording()
+         recordsRepository.startRecording()
         _homeUiState.update { currentState ->
             currentState.copy(snackbarMessages = currentState.snackbarMessages.addNewMessage("Recording started."))
         }
     }
 
     private fun stopRecording() {
-        // recordsRepository.stopRecording()
+         recordsRepository.stopRecording()
         _homeUiState.update { currentState ->
             currentState.copy(snackbarMessages = currentState.snackbarMessages.addNewMessage("Recording stopped."))
         }
