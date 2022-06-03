@@ -38,8 +38,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListener() {
-        binding.buttonShowRecordings.setOnClickListener {
-            viewModel.onShowRecordingsClicked()
+        with(binding) {
+            buttonShowRecordings.setOnClickListener {
+                viewModel.onShowRecordingsClicked()
+            }
+
+            buttonStartStopRecording.setOnClickListener {
+                viewModel.onStartStopRecordingClicked()
+            }
         }
     }
 

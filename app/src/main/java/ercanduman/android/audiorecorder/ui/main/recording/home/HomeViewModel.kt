@@ -1,14 +1,12 @@
 package ercanduman.android.audiorecorder.ui.main.recording.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.android.audiorecorder.data.repository.RecordsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
@@ -20,15 +18,25 @@ class HomeViewModel @Inject constructor(
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
-    fun onStartRecordingClicked() = viewModelScope.launch {
-        recordsRepository.startRecording()
+    var isRecordingStarted: Boolean = false
+    fun onStartStopRecordingClicked() {
+        if (!isRecordingStarted) {
+            startRecording()
+        } else {
+            stopRecording()
+        }
+        isRecordingStarted = !isRecordingStarted
+    }
+
+    private fun startRecording() {
+        // recordsRepository.startRecording()
         _homeUiState.update { currentState ->
             currentState.copy(snackbarMessages = currentState.snackbarMessages.addNewMessage("Recording started."))
         }
     }
 
-    fun onStopRecordingClicked() {
-        recordsRepository.stopRecording()
+    private fun stopRecording() {
+        // recordsRepository.stopRecording()
         _homeUiState.update { currentState ->
             currentState.copy(snackbarMessages = currentState.snackbarMessages.addNewMessage("Recording stopped."))
         }
