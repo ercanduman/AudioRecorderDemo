@@ -6,7 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.android.audiorecorder.data.repository.RecordsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,23 +17,54 @@ class HomeViewModel @Inject constructor(
     private val recordsRepository: RecordsRepository
 ) : ViewModel() {
 
-    private val _snackbarMessage = MutableStateFlow("")
-    val snackbarMessage: StateFlow<String> = _snackbarMessage
+    private val _homeUiState = MutableStateFlow(HomeUiState())
+    val homeUiState: StateFlow<HomeUiState> = _homeUiState.asStateFlow()
 
-    private val _navigateToRecordsClicked = MutableStateFlow(false)
-    val navigateToRecordsClicked: StateFlow<Boolean> = _navigateToRecordsClicked
-
-    fun onRecordStarted() = viewModelScope.launch {
+    fun onStartRecordingClicked() = viewModelScope.launch {
         recordsRepository.startRecording()
-        _snackbarMessage.value = "Record started."
+        _homeUiState.update { currentState ->
+            currentState.copy(snackbarMessages = currentState.snackbarMessages.addNewMessage("Recording started."))
+        }
     }
 
-    fun onRecordStopped() = viewModelScope.launch {
+    fun onStopRecordingClicked() {
         recordsRepository.stopRecording()
-        _snackbarMessage.value = "Record stopped."
+        _homeUiState.update { currentState ->
+            currentState.copy(snackbarMessages = currentState.snackbarMessages.addNewMessage("Recording stopped."))
+        }
     }
 
-    fun onShowRecordsClicked() {
-        _navigateToRecordsClicked.value = true
+    fun onShowRecordingsClicked() {
+        _homeUiState.update { currentState -> currentState.copy(navigateToRecordings = true) }
+    }
+
+    fun onShowRecordingsProcessed() {
+        _homeUiState.update { currentState -> currentState.copy(navigateToRecordings = false) }
+    }
+
+    fun onSnackbarMessageShown(messageId: Long) {
+        _homeUiState.update { currentState ->
+            val messages = currentState.snackbarMessages.filterNot { it.id == messageId }
+            currentState.copy(snackbarMessages = messages)
+        }
+    }
+
+    /**
+     * In order to learn more information and handle UI events by the ViewModel,
+     * the following url can be checked.
+     * https://developer.android.com/topic/architecture/ui-layer/events
+     */
+    data class HomeUiState(
+        val navigateToRecordings: Boolean = false,
+        val snackbarMessages: List<SnackbarMessage> = emptyList()
+    )
+
+    data class SnackbarMessage(
+        val id: Long = UUID.randomUUID().mostSignificantBits,
+        val message: String = ""
+    )
+
+    private fun List<SnackbarMessage>.addNewMessage(message: String): List<SnackbarMessage> {
+        return this + SnackbarMessage(message = message)
     }
 }

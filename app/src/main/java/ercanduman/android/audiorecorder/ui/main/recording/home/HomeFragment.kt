@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.android.audiorecorder.R
 import ercanduman.android.audiorecorder.databinding.FragmentHomeBinding
+import ercanduman.android.audiorecorder.internal.util.safeCollectWithRepeatOnLifecycle
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -34,13 +35,37 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setListener()
-        // observeViewModel()
+        observeViewModel()
     }
 
     private fun setListener() {
         binding.buttonShowRecordings.setOnClickListener {
-            findNavController().navigate(R.id.action_HomeFragment_to_RecordingsFragment)
+            viewModel.onShowRecordingsClicked()
         }
+    }
+
+    private fun observeViewModel() {
+        safeCollectWithRepeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewModel.homeUiState.collect { state ->
+                if (state.navigateToRecordings) {
+                    navigateToRecordings()
+                    viewModel.onShowRecordingsProcessed()
+                }
+
+                state.snackbarMessages.firstOrNull()?.let {
+                    displaySnackbarMessage(it.message)
+                    viewModel.onSnackbarMessageShown(it.id)
+                }
+            }
+        }
+    }
+
+    private fun navigateToRecordings() {
+        findNavController().navigate(R.id.action_HomeFragment_to_RecordingsFragment)
+    }
+
+    private fun displaySnackbarMessage(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {
