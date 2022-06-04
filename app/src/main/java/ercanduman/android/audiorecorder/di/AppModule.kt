@@ -1,10 +1,12 @@
 package ercanduman.android.audiorecorder.di
 
+import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ercanduman.android.audiorecorder.data.filename.NameAndPathProvider
 import ercanduman.android.audiorecorder.data.filename.NameAndPathProviderImpl
@@ -34,8 +36,10 @@ object AppModule {
     }
 
     @Provides
-    fun provideNameAndPathProvider(): NameAndPathProvider {
-        return NameAndPathProviderImpl()
+    fun provideNameAndPathProvider(
+        @ApplicationContext context: Context
+    ): NameAndPathProvider {
+        return NameAndPathProviderImpl(context)
     }
 
     @Provides

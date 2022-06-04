@@ -11,9 +11,10 @@ private const val TAG = "RecordingDataSourceImpl"
 
 class RecordingDataSourceImpl(
     private val recorder: MediaRecorder,
-    private val nameAndPathProvider: NameAndPathProvider
+    nameAndPathProvider: NameAndPathProvider
 ) : RecordingDataSource {
-    private val currentRecord = Record(nameAndPathProvider.provideName(), nameAndPathProvider.provideFilePath())
+    private val currentRecord =
+        Record(nameAndPathProvider.provideName(), nameAndPathProvider.provideFilePath())
     private val currentRecordList = mutableListOf<Record>()
 
     override val records: Flow<List<Record>> = flow { emit(currentRecordList) }
@@ -27,6 +28,7 @@ class RecordingDataSourceImpl(
             try {
                 prepare()
             } catch (e: Throwable) {
+                e.printStackTrace()
                 Log.e(TAG, "prepare() failed. $e")
             }
 
@@ -37,6 +39,7 @@ class RecordingDataSourceImpl(
     override fun stopRecording() {
         recorder.apply {
             stop()
+            reset()
             release()
         }
 
