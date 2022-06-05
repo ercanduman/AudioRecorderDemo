@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,11 +65,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        safeCollectWithRepeatOnLifecycle(Lifecycle.State.RESUMED) {
+        safeCollectWithRepeatOnLifecycle {
             viewModel.uiState.collect { state ->
                 if (state.onNavigateClicked) {
                     navigateToRecordings()
-                    viewModel.onShowRecordingsProcessed()
+                    viewModel.onNavigationProcessed()
                 }
 
                 state.snackbarMessages.firstOrNull()?.let {

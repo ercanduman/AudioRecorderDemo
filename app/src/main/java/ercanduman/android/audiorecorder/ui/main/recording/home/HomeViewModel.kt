@@ -4,14 +4,13 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.android.audiorecorder.data.repository.RecordsRepository
 import ercanduman.android.audiorecorder.ui.main.recording.delegate.UIStateHandler
-import ercanduman.android.audiorecorder.ui.main.recording.delegate.UIStateHandlerDelegate
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val recordsRepository: RecordsRepository,
-    private val uiStateHandlerDelegate: UIStateHandlerDelegate
-) : ViewModel(), UIStateHandler by uiStateHandlerDelegate {
+    private val uiStateHandler: UIStateHandler
+) : ViewModel(), UIStateHandler by uiStateHandler {
 
     private var isRecordingStarted: Boolean = false
     fun onStartStopRecordingClicked() {
@@ -25,19 +24,15 @@ class HomeViewModel @Inject constructor(
 
     private fun startRecording() {
         recordsRepository.startRecording()
-        uiStateHandlerDelegate.addSnackbarMessage("Recording started.")
+        uiStateHandler.addSnackbarMessage("Recording started.")
     }
 
     private fun stopRecording() {
         recordsRepository.stopRecording()
-        uiStateHandlerDelegate.addSnackbarMessage("Recording stopped.")
+        uiStateHandler.addSnackbarMessage("Recording stopped.")
     }
 
     fun onShowRecordingsClicked() {
-        uiStateHandlerDelegate.onNavigationRequested()
-    }
-
-    fun onShowRecordingsProcessed() {
-        uiStateHandlerDelegate.onNavigationProcessed()
+        uiStateHandler.onNavigationRequested()
     }
 }

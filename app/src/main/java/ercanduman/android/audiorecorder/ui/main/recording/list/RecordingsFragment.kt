@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.databinding.FragmentRecordingsBinding
@@ -50,7 +51,18 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
             viewModel.records.collect {
                 displayRecords(it)
             }
+
+            viewModel.uiState.collect { state ->
+                state.snackbarMessages.firstOrNull()?.let {
+                    displaySnackbarMessage(it.message)
+                    viewModel.onSnackbarMessageProcessed(it.id)
+                }
+            }
         }
+    }
+
+    private fun displaySnackbarMessage(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
     private fun displayRecords(records: List<Record>) {
