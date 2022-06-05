@@ -14,11 +14,21 @@ class RecordingsViewModel @Inject constructor(
 
     val records: Flow<List<Record>> = recordsRepository.records
 
-    fun onPlayClicked(record: Record) {
+    private var isPlayingStarted: Boolean = false
+    fun onPlayPauseRecordClicked(record: Record) {
+        if (!isPlayingStarted) {
+            onPlayClicked(record)
+        } else {
+            onPauseClicked()
+        }
+        isPlayingStarted = !isPlayingStarted
+    }
+
+    private fun onPlayClicked(record: Record) {
         recordsRepository.startPlaying(record)
     }
 
-    fun onPauseClicked() {
+    private fun onPauseClicked() {
         recordsRepository.stopPlaying()
     }
 

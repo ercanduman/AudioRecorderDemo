@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,7 +59,7 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
     }
 
     override fun onRecordClicked(record: Record) {
-        Toast.makeText(requireContext(), "${record.name} clicked.", Toast.LENGTH_SHORT).show()
+        viewModel.onPlayPauseRecordClicked(record)
     }
 
     // Clear instance of fields in order to prevent memory leaks.
