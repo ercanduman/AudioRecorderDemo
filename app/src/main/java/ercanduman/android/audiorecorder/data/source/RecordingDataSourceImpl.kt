@@ -8,8 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.concurrent.atomic.AtomicInteger
 
-private const val TAG = "RecordingDataSourceImpl"
-
 class RecordingDataSourceImpl(
     private val recorder: MediaRecorder,
     private val nameAndPathProvider: NameAndPathProvider

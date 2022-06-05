@@ -4,8 +4,6 @@ import android.media.MediaPlayer
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.internal.util.Logger
 
-private const val TAG = "PlayingDataSourceImpl"
-
 class PlayingDataSourceImpl(
     private val mediaPlayer: MediaPlayer
 ) : PlayingDataSource {
