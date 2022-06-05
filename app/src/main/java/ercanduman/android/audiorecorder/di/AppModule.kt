@@ -15,6 +15,7 @@ import ercanduman.android.audiorecorder.data.source.PlayingDataSource
 import ercanduman.android.audiorecorder.data.source.PlayingDataSourceImpl
 import ercanduman.android.audiorecorder.data.source.RecordingDataSource
 import ercanduman.android.audiorecorder.data.source.RecordingDataSourceImpl
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -51,6 +52,7 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideRecordsRepository(
         playingDataSource: PlayingDataSource,
         recordingDataSource: RecordingDataSource

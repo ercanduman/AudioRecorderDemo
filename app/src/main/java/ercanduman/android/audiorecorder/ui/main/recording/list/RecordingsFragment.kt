@@ -46,7 +46,7 @@ class RecordingsFragment : Fragment() {
     }
 
     private fun displayRecords(records: List<Record>) {
-        Log.d(TAG, "displayRecords: record list: $records")
+        Log.d(TAG, "displayRecords: record list: ${records.size}")
     }
 
     override fun onDestroyView() {
