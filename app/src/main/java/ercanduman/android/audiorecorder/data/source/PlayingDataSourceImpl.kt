@@ -13,16 +13,22 @@ class PlayingDataSourceImpl(
     override fun startPlaying(record: Record) {
         mediaPlayer.apply {
             try {
-                setDataSource(record.path)
-                prepare()
-                start()
+                if (!isPlaying) {
+                    setDataSource(record.path)
+                    prepare()
+                    start()
+                }
             } catch (e: Throwable) {
+                e.printStackTrace()
                 Log.e(TAG, "prepare() failed. $e")
             }
         }
     }
 
     override fun stopPlaying() {
-        mediaPlayer.release()
+        mediaPlayer.apply {
+            stop()
+            reset()
+        }
     }
 }
