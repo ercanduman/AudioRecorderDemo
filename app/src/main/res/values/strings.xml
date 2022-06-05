@@ -5,5 +5,7 @@
     <string name="first_fragment_label">VoiceRecorder</string>
     <string name="second_fragment_label">Recordings</string>
     <string name="fragment_home_button_text">Show Recordings</string>
+
+    <string name="undo">Undo</string>
     <string name="previous">Previous</string>
 </resources>

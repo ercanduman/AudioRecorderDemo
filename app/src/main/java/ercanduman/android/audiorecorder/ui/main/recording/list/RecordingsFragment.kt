@@ -61,15 +61,23 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickedListener
 
             viewModel.uiState.collect { state ->
                 state.snackbarMessages.firstOrNull()?.let {
-                    displaySnackbarMessage(it.message)
+                    displaySnackbarMessage(it)
                     viewModel.onSnackbarMessageProcessed(it.id)
                 }
             }
         }
     }
 
-    private fun displaySnackbarMessage(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    private fun displaySnackbarMessage(snackbarMessage: SnackbarMessage) {
+        val snackbar = Snackbar.make(binding.root, snackbarMessage.message, Snackbar.LENGTH_LONG)
+
+        snackbarMessage.undoCallback?.let { callback ->
+            snackbar.setAction(getString(R.string.undo)) {
+                callback.undoClicked()
+            }
+        }
+
+        snackbar.show()
     }
 
     private fun displayRecords(records: List<Record>) {
@@ -79,6 +87,12 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickedListener
 
     override fun onRecordClicked(record: Record) {
         viewModel.onPlayPauseRecordClicked(record)
+    }
+
+    override fun onRecordSwiped(position: Int) {
+        recordingsAdapter?.getRecordAt(position)?.let {
+            viewModel.onSwipeToDelete(it)
+        }
     }
 
     // Clear instance of fields in order to prevent memory leaks.

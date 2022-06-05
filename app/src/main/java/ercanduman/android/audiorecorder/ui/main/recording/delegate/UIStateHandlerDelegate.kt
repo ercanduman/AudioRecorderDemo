@@ -16,6 +16,17 @@ class UIStateHandlerDelegate : UIStateHandler {
         }
     }
 
+    override fun addSnackbarMessage(message: String, undoCallback: SnackbarUndoCallback) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                snackbarMessages = currentState.snackbarMessages.addNewMessage(
+                    message = message,
+                    undoCallback = undoCallback
+                )
+            )
+        }
+    }
+
     override fun onSnackbarMessageProcessed(messageId: Long) {
         _uiState.update { currentState ->
             val messages = currentState.snackbarMessages.filterNot { it.id == messageId }
@@ -33,5 +44,12 @@ class UIStateHandlerDelegate : UIStateHandler {
 
     private fun List<SnackbarMessage>.addNewMessage(message: String): List<SnackbarMessage> {
         return this + SnackbarMessage(message = message)
+    }
+
+    private fun List<SnackbarMessage>.addNewMessage(
+        message: String,
+        undoCallback: SnackbarUndoCallback
+    ): List<SnackbarMessage> {
+        return this + SnackbarMessage(message = message, undoCallback = undoCallback)
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.data.repository.RecordsRepository
+import ercanduman.android.audiorecorder.ui.main.recording.delegate.SnackbarUndoCallback
 import ercanduman.android.audiorecorder.ui.main.recording.delegate.UIStateHandler
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -16,6 +17,7 @@ class RecordingsViewModel @Inject constructor(
 
     val records: Flow<List<Record>> = recordsRepository.records
 
+    private var deletedRecord: Record? = null
     private var isPlayingStarted: Boolean = false
     fun onPlayPauseRecordClicked(record: Record) {
         if (!isPlayingStarted) {
@@ -36,11 +38,23 @@ class RecordingsViewModel @Inject constructor(
         uiStateHandler.addSnackbarMessage("Record is stopped.")
     }
 
-    fun onSwipeDeleted(record: Record) {
+    fun onSwipeToDelete(record: Record) {
         recordsRepository.deleteRecord(record)
+        deletedRecord = record
+        uiStateHandler.addSnackbarMessage(
+            message = "Record is deleted.",
+            undoCallback = swipeDeleteUndo
+        )
     }
 
-    fun onSwipeDeleteUndo(record: Record) {
-        recordsRepository.deleteRecord(record)
+    private val swipeDeleteUndo = object : SnackbarUndoCallback {
+        override fun undoClicked() {
+            onSwipeDeleteUndo()
+        }
+    }
+
+    private fun onSwipeDeleteUndo() {
+        deletedRecord?.let { recordsRepository.insertRecord(it) }
+        uiStateHandler.addSnackbarMessage("Undo clicked.")
     }
 }
