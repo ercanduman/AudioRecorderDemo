@@ -18,17 +18,17 @@ class RecordingsViewModel @Inject constructor(
     val records: Flow<List<Record>> = recordsRepository.records
 
     private var isPlayingStarted: Boolean = false
-    fun onPlayPauseRecordClicked(record: Record) {
+    fun onPlayPauseRecordClicked(filePath: String) {
         if (!isPlayingStarted) {
-            onPlayClicked(record)
+            onPlayClicked(filePath)
         } else {
             onPauseClicked()
         }
         isPlayingStarted = !isPlayingStarted
     }
 
-    private fun onPlayClicked(record: Record) {
-        recordsRepository.startPlaying(record)
+    private fun onPlayClicked(filePath: String) {
+        recordsRepository.startPlaying(filePath)
         uiStateHandler.addSnackbarMessage("Record is playing...")
     }
 

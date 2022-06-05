@@ -23,8 +23,8 @@ class RecordingDataSourceImpl(
         recorder.apply {
             val audioId = atomicInteger.incrementAndGet()
             currentRecord = Record(
-                nameAndPathProvider.provideName(audioId),
-                nameAndPathProvider.provideFilePath(audioId)
+                name = nameAndPathProvider.provideName(audioId),
+                path = nameAndPathProvider.provideFilePath(audioId)
             )
 
             setAudioSource(MediaRecorder.AudioSource.MIC)

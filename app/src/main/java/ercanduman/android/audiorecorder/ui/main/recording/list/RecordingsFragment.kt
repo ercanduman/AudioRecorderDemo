@@ -88,7 +88,7 @@ class RecordingsFragment :
     }
 
     override fun onRecordClicked(record: Record) {
-        viewModel.onPlayPauseRecordClicked(record)
+        viewModel.onPlayPauseRecordClicked(record.path)
     }
 
     override fun onRecordSwiped(position: Int) {

@@ -1,18 +1,17 @@
 package ercanduman.android.audiorecorder.data.source
 
 import android.media.MediaPlayer
-import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.internal.util.Logger
 
 class PlayingDataSourceImpl(
     private val mediaPlayer: MediaPlayer
 ) : PlayingDataSource {
 
-    override fun startPlaying(record: Record) {
+    override fun startPlaying(filePath: String) {
         mediaPlayer.apply {
             try {
                 if (!isPlaying) {
-                    setDataSource(record.path)
+                    setDataSource(filePath)
                     prepare()
                     start()
                 }
