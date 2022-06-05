@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import ercanduman.android.audiorecorder.R
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.databinding.FragmentRecordingsBinding
 import ercanduman.android.audiorecorder.internal.util.safeCollectWithRepeatOnLifecycle
+import ercanduman.android.audiorecorder.ui.main.recording.delegate.SnackbarMessage
 import ercanduman.android.audiorecorder.ui.main.recording.list.adapter.RecordingsAdapter
+import ercanduman.android.audiorecorder.ui.main.recording.list.adapter.SwipeToDeleteTouchHelper
 
 @AndroidEntryPoint
-class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
+class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickedListener,
+    RecordingsAdapter.OnRecordSwipedListener {
     private val viewModel: RecordingsViewModel by viewModels()
 
     private var _binding: FragmentRecordingsBinding? = null
@@ -40,9 +45,11 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
 
     private fun setupRecyclerView() {
         recordingsAdapter = RecordingsAdapter(this)
+        val swipeToDeleteTouchHelper = ItemTouchHelper(SwipeToDeleteTouchHelper(this))
         binding.recyclerviewRecordings.apply {
             adapter = recordingsAdapter
             setHasFixedSize(true)
+            swipeToDeleteTouchHelper.attachToRecyclerView(this)
         }
     }
 

@@ -9,7 +9,7 @@ import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.databinding.ListItemRecordingBinding
 
 class RecordingsAdapter(
-    private val clickListener: OnRecordClickListener
+    private val clickListener: OnRecordClickedListener
 ) : ListAdapter<Record, RecordingsAdapter.RecordViewHolder>(recordComparator) {
 
     override fun onCreateViewHolder(
@@ -22,7 +22,11 @@ class RecordingsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
-        holder.bindRecord(getItem(position))
+        holder.bindRecord(getRecordAt(position))
+    }
+
+    fun getRecordAt(position: Int): Record {
+        return getItem(position)
     }
 
     inner class RecordViewHolder(
@@ -34,7 +38,7 @@ class RecordingsAdapter(
                 /* If item clicked during deletion or new insertion processes, then it is possible
                 that clicked item's position might be invalid which is animating during process. */
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    val currentRecord = getItem(adapterPosition)
+                    val currentRecord = getRecordAt(adapterPosition)
                     clickListener.onRecordClicked(currentRecord)
                 }
             }
@@ -60,7 +64,11 @@ class RecordingsAdapter(
         }
     }
 
-    interface OnRecordClickListener {
+    interface OnRecordClickedListener {
         fun onRecordClicked(record: Record)
+    }
+
+    interface OnRecordSwipedListener {
+        fun onRecordSwiped(position: Int)
     }
 }
