@@ -88,9 +88,9 @@ class HomeFragment : Fragment() {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
+    @Suppress("DEPRECATION")
     private fun requestMicrophonePermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
+        requestPermissions(
             permissions,
             REQUEST_RECORD_AUDIO_PERMISSION
         )
