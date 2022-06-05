@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.util.UUID
+import javax.inject.Inject
 
-class UIStateHandlerDelegate : UIStateHandler {
+class UIStateHandlerDelegate @Inject constructor() : UIStateHandler {
 
     private val _uiState = MutableStateFlow(UiState())
     override val uiState: StateFlow<UiState> = _uiState.asStateFlow()
@@ -35,9 +35,4 @@ class UIStateHandlerDelegate : UIStateHandler {
     private fun List<SnackbarMessage>.addNewMessage(message: String): List<SnackbarMessage> {
         return this + SnackbarMessage(message = message)
     }
-
-    data class SnackbarMessage(
-        val id: Long = UUID.randomUUID().mostSignificantBits,
-        val message: String = ""
-    )
 }
