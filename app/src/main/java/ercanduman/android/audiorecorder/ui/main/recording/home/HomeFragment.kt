@@ -67,15 +67,15 @@ class HomeFragment : Fragment() {
 
     private fun observeViewModel() {
         safeCollectWithRepeatOnLifecycle(Lifecycle.State.RESUMED) {
-            viewModel.homeUiState.collect { state ->
-                if (state.navigateToRecordings) {
+            viewModel.uiState.collect { state ->
+                if (state.onNavigateClicked) {
                     navigateToRecordings()
                     viewModel.onShowRecordingsProcessed()
                 }
 
                 state.snackbarMessages.firstOrNull()?.let {
                     displaySnackbarMessage(it.message)
-                    viewModel.onSnackbarMessageShown(it.id)
+                    viewModel.onSnackbarMessageProcessed(it.id)
                 }
             }
         }

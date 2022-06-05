@@ -7,7 +7,7 @@ package ercanduman.android.audiorecorder.ui.main.recording.delegate
  */
 data class UiState(
     val onNavigateClicked: Boolean = false,
-    val snackbarMessages: List<UIStateHandlerDelegate.SnackbarMessage> = emptyList()
+    val snackbarMessages: List<SnackbarMessage> = emptyList()
 )
 
 
