@@ -61,7 +61,9 @@ class RecordingsFragment :
             viewModel.records.collect {
                 displayRecords(it)
             }
+        }
 
+        safeCollectWithRepeatOnLifecycle {
             viewModel.uiState.collect { state ->
                 state.snackbarMessages.firstOrNull()?.let {
                     displaySnackbarMessage(it)

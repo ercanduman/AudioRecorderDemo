@@ -4,8 +4,10 @@ import android.media.MediaRecorder
 import ercanduman.android.audiorecorder.data.filename.NameAndPathProvider
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.internal.util.Logger
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.util.concurrent.atomic.AtomicInteger
 
 class RecordingDataSourceImpl(
@@ -18,7 +20,9 @@ class RecordingDataSourceImpl(
 
     private val currentRecordList = mutableListOf<Record>()
 
-    override val records: Flow<List<Record>> = flow { emit(currentRecordList) }
+    private val _records: MutableStateFlow<List<Record>> = MutableStateFlow(emptyList())
+    override val records: StateFlow<List<Record>> = _records.asStateFlow()
+
     override fun startRecording() {
         recorder.apply {
             val audioId = atomicInteger.incrementAndGet()
@@ -58,9 +62,11 @@ class RecordingDataSourceImpl(
 
     override fun insertRecord(record: Record) {
         currentRecordList.add(record)
+        _records.update { currentRecordList }
     }
 
     override fun deleteRecord(record: Record) {
         currentRecordList.remove(record)
+        _records.update { currentRecordList }
     }
 }

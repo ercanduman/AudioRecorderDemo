@@ -6,7 +6,7 @@ import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.data.repository.RecordsRepository
 import ercanduman.android.audiorecorder.ui.main.recording.delegate.SnackbarUndoCallback
 import ercanduman.android.audiorecorder.ui.main.recording.delegate.UIStateHandler
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +15,7 @@ class RecordingsViewModel @Inject constructor(
     private val uiStateHandler: UIStateHandler
 ) : ViewModel(), UIStateHandler by uiStateHandler {
 
-    val records: Flow<List<Record>> = recordsRepository.records
+    val records: StateFlow<List<Record>> = recordsRepository.records
 
     private var isPlayingStarted: Boolean = false
     fun onPlayPauseRecordClicked(filePath: String) {

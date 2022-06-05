@@ -23,8 +23,10 @@ class PlayingDataSourceImpl(
 
     override fun stopPlaying() {
         mediaPlayer.apply {
-            stop()
-            reset()
+            if (isPlaying) {
+                stop()
+                reset()
+            }
         }
     }
 }
