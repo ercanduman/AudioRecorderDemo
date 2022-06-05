@@ -17,7 +17,6 @@ class RecordingsViewModel @Inject constructor(
 
     val records: Flow<List<Record>> = recordsRepository.records
 
-    private var deletedRecord: Record? = null
     private var isPlayingStarted: Boolean = false
     fun onPlayPauseRecordClicked(record: Record) {
         if (!isPlayingStarted) {
@@ -38,6 +37,7 @@ class RecordingsViewModel @Inject constructor(
         uiStateHandler.addSnackbarMessage("Record is stopped.")
     }
 
+    private var deletedRecord: Record? = null
     fun onSwipeToDelete(record: Record) {
         recordsRepository.deleteRecord(record)
         deletedRecord = record

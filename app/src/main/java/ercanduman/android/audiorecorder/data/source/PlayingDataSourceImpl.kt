@@ -17,7 +17,7 @@ class PlayingDataSourceImpl(
                 prepare()
                 start()
             } catch (e: Throwable) {
-                Log.e(TAG, "prepare() failed")
+                Log.e(TAG, "prepare() failed. $e")
             }
         }
     }

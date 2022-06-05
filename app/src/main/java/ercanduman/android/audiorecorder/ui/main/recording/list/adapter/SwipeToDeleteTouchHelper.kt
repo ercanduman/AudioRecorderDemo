@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class SwipeToDeleteTouchHelper(
-    private val listener: RecordingsAdapter.OnRecordSwipedListener
+    private val listener: OnRecordSwipedListener
 ) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
     override fun onMove(
         recyclerView: RecyclerView,
@@ -15,5 +15,9 @@ class SwipeToDeleteTouchHelper(
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         listener.onRecordSwiped(position)
+    }
+
+    interface OnRecordSwipedListener {
+        fun onRecordSwiped(position: Int)
     }
 }

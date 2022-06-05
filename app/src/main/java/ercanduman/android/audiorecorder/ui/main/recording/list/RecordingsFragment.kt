@@ -20,7 +20,8 @@ import ercanduman.android.audiorecorder.ui.main.recording.list.adapter.SwipeToDe
 
 @AndroidEntryPoint
 class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickedListener,
-    RecordingsAdapter.OnRecordSwipedListener {
+    SwipeToDeleteTouchHelper.OnRecordSwipedListener {
+
     private val viewModel: RecordingsViewModel by viewModels()
 
     private var _binding: FragmentRecordingsBinding? = null

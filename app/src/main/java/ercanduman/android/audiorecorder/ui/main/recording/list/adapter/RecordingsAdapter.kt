@@ -67,8 +67,4 @@ class RecordingsAdapter(
     interface OnRecordClickedListener {
         fun onRecordClicked(record: Record)
     }
-
-    interface OnRecordSwipedListener {
-        fun onRecordSwiped(position: Int)
-    }
 }
