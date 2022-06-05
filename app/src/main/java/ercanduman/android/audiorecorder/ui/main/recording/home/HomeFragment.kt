@@ -50,16 +50,10 @@ class HomeFragment : Fragment() {
             }
 
             buttonStartStopRecording.setOnClickListener {
-                val isPermissionGranted =
-                    ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.RECORD_AUDIO
-                    ) == PackageManager.PERMISSION_GRANTED
-
-                if (isPermissionGranted) {
+                if (isAudioPermissionGranted()) {
                     viewModel.onStartStopRecordingClicked()
                 } else {
-                    requestMicrophonePermission()
+                    requestAudioPermission()
                 }
             }
         }
@@ -89,8 +83,15 @@ class HomeFragment : Fragment() {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
+    private fun isAudioPermissionGranted(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     @Suppress("DEPRECATION")
-    private fun requestMicrophonePermission() {
+    private fun requestAudioPermission() {
         requestPermissions(
             permissions,
             REQUEST_RECORD_AUDIO_PERMISSION

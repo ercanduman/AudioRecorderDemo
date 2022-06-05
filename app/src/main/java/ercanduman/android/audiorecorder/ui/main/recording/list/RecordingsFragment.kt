@@ -104,8 +104,4 @@ class RecordingsFragment :
 
         _binding = null
     }
-
-    companion object {
-        private const val TAG = "RecordingsFragment"
-    }
 }
