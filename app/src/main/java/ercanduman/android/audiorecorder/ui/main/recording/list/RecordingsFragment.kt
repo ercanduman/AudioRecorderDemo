@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +23,7 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
+    private var recordingsAdapter: RecordingsAdapter? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +39,7 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
     }
 
     private fun setupRecyclerView() {
-        val recordingsAdapter = RecordingsAdapter(this)
+        recordingsAdapter = RecordingsAdapter(this)
         binding.recyclerviewRecordings.apply {
             adapter = recordingsAdapter
             setHasFixedSize(true)
@@ -54,14 +56,18 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
 
     private fun displayRecords(records: List<Record>) {
         Log.d(TAG, "displayRecords: record list: ${records.size}")
+        recordingsAdapter?.submitList(records)
     }
 
     override fun onRecordClicked(record: Record) {
-
+        Toast.makeText(requireContext(), "${record.name} clicked.", Toast.LENGTH_SHORT).show()
     }
 
+    // Clear instance of fields in order to prevent memory leaks.
     override fun onDestroyView() {
         super.onDestroyView()
+        recordingsAdapter = null
+
         _binding = null
     }
 
