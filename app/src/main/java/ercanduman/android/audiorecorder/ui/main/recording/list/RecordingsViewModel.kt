@@ -34,7 +34,6 @@ class RecordingsViewModel @Inject constructor(
 
     private fun onPauseClicked() {
         recordsRepository.stopPlaying()
-        uiStateHandler.addSnackbarMessage("Record is stopped.")
     }
 
     private var deletedRecord: Record? = null
