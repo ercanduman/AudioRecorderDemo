@@ -33,6 +33,7 @@ object AppModule {
 
     @Provides
     fun provideMediaRecorder(): MediaRecorder {
+        @Suppress("DEPRECATION")
         return MediaRecorder()
     }
 

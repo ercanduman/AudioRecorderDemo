@@ -52,7 +52,7 @@ class RecordingDataSourceImpl(
     override fun stopRecording() {
         recorder.apply {
             stop()
-            reset()   // You can reuse the object by going back to setAudioSource() step
+            reset() // You can reuse the object by going back to setAudioSource() step
             // release() // Now the object cannot be reused
         }
 

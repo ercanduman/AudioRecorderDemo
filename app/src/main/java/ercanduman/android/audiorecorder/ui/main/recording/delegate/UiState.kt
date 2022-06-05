@@ -9,5 +9,3 @@ data class UiState(
     val onNavigateClicked: Boolean = false,
     val snackbarMessages: List<SnackbarMessage> = emptyList()
 )
-
-

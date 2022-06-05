@@ -19,7 +19,9 @@ import ercanduman.android.audiorecorder.ui.main.recording.list.adapter.Recording
 import ercanduman.android.audiorecorder.ui.main.recording.list.adapter.SwipeToDeleteTouchHelper
 
 @AndroidEntryPoint
-class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickedListener,
+class RecordingsFragment :
+    Fragment(),
+    RecordingsAdapter.OnRecordClickedListener,
     SwipeToDeleteTouchHelper.OnRecordSwipedListener {
 
     private val viewModel: RecordingsViewModel by viewModels()
@@ -31,7 +33,8 @@ class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickedListener
 
     private var recordingsAdapter: RecordingsAdapter? = null
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecordingsBinding.inflate(inflater, container, false)
