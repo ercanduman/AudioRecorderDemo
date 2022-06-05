@@ -1,8 +1,8 @@
 package ercanduman.android.audiorecorder.data.source
 
 import android.media.MediaPlayer
-import android.util.Log
 import ercanduman.android.audiorecorder.data.model.Record
+import ercanduman.android.audiorecorder.internal.util.Logger
 
 private const val TAG = "PlayingDataSourceImpl"
 
@@ -19,8 +19,7 @@ class PlayingDataSourceImpl(
                     start()
                 }
             } catch (e: Throwable) {
-                e.printStackTrace()
-                Log.e(TAG, "prepare() failed. $e")
+                Logger.log("prepare() failed. $e")
             }
         }
     }

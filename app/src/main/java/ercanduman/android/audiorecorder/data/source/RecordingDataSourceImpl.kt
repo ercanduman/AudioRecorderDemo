@@ -1,9 +1,9 @@
 package ercanduman.android.audiorecorder.data.source
 
 import android.media.MediaRecorder
-import android.util.Log
 import ercanduman.android.audiorecorder.data.filename.NameAndPathProvider
 import ercanduman.android.audiorecorder.data.model.Record
+import ercanduman.android.audiorecorder.internal.util.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.concurrent.atomic.AtomicInteger
@@ -37,8 +37,7 @@ class RecordingDataSourceImpl(
             try {
                 prepare()
             } catch (e: Throwable) {
-                e.printStackTrace()
-                Log.e(TAG, "prepare() failed. $e")
+                Logger.log("prepare() failed. $e")
             }
 
             start()
@@ -61,7 +60,6 @@ class RecordingDataSourceImpl(
 
     override fun insertRecord(record: Record) {
         currentRecordList.add(record)
-        Log.d(TAG, "insertRecord: $record")
     }
 
     override fun deleteRecord(record: Record) {

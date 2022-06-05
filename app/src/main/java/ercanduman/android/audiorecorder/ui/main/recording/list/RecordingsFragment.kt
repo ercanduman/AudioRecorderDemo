@@ -1,7 +1,6 @@
 package ercanduman.android.audiorecorder.ui.main.recording.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -85,7 +84,6 @@ class RecordingsFragment :
     }
 
     private fun displayRecords(records: List<Record>) {
-        Log.d(TAG, "displayRecords: record list: ${records.size}")
         recordingsAdapter?.submitList(records)
     }
 
