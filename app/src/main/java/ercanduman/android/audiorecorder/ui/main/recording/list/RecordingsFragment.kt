@@ -11,9 +11,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import ercanduman.android.audiorecorder.data.model.Record
 import ercanduman.android.audiorecorder.databinding.FragmentRecordingsBinding
 import ercanduman.android.audiorecorder.internal.util.safeCollectWithRepeatOnLifecycle
+import ercanduman.android.audiorecorder.ui.main.recording.list.adapter.RecordingsAdapter
 
 @AndroidEntryPoint
-class RecordingsFragment : Fragment() {
+class RecordingsFragment : Fragment(), RecordingsAdapter.OnRecordClickListener {
     private val viewModel: RecordingsViewModel by viewModels()
 
     private var _binding: FragmentRecordingsBinding? = null
@@ -25,16 +26,22 @@ class RecordingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentRecordingsBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupRecyclerView()
         observeViewModel()
+    }
+
+    private fun setupRecyclerView() {
+        val recordingsAdapter = RecordingsAdapter(this)
+        binding.recyclerviewRecordings.apply {
+            adapter = recordingsAdapter
+            setHasFixedSize(true)
+        }
     }
 
     private fun observeViewModel() {
@@ -47,6 +54,10 @@ class RecordingsFragment : Fragment() {
 
     private fun displayRecords(records: List<Record>) {
         Log.d(TAG, "displayRecords: record list: ${records.size}")
+    }
+
+    override fun onRecordClicked(record: Record) {
+
     }
 
     override fun onDestroyView() {
