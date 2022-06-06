@@ -62,11 +62,15 @@ class RecordingDataSourceImpl(
 
     override fun insertRecord(record: Record) {
         currentRecordList.add(record)
-        _records.update { currentRecordList }
+        updateRecordList()
     }
 
     override fun deleteRecord(record: Record) {
         currentRecordList.remove(record)
-        _records.update { currentRecordList }
+        updateRecordList()
+    }
+
+    private fun updateRecordList() {
+        _records.update { currentRecordList.toList() }
     }
 }
